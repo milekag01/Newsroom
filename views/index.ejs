@@ -1,0 +1,32 @@
+<%include partials/header%>
+    <div class="ui main text container">
+        <div class="ui huge header"><!--topic--></div>
+        <div class="ui top attached piled segment">
+            <div class="ui divided items">
+                <%data.forEach((data) =>{%>
+                <div class="item">
+                    <%if(data.urlToImage){%>
+                        <div class="image"><img src="<%=data.urlToImage%>"></div>
+                    <%}else{%>
+                        <div class="image"><img src="http://www.heavywoodfurniture.com/wp-content/uploads/2016/10/no-image-found.gif"></div>
+                    <%}%>
+                    <div class="content">
+                        <a href="<%=data.url%>" class="header"><%=data.title%></a>
+                        <div class="meta">
+                            <span><em>Published At: <%=data.publishedAt.substring(0,9)%></em></span>
+                        </div>
+                        <div class="description"><%=data.description%></div>
+                        <div class="extra">
+                            <a href="<%=data.url%>" class="ui basic floated violet button">
+                                Read More
+                                <i class="right chevron icon"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <%});%>
+            </div>
+        </div>
+    </div>
+
+<%include partials/footer%>

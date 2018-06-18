@@ -1,6 +1,10 @@
 var express    = require("express");
 var bodyParser = require("body-parser");
 var request    = require("request");
+// var geolocation = require("geolocation");
+// var location=require("./location");
+var weather=require("./weather");
+
 var app = express();
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({encoded:true}));
@@ -119,6 +123,42 @@ app.get("/science",(req,res) => {
         }
     });
 });
+
+(function(){
+    'use strict';
+    
+    function onPositionReceived(position){
+        console.log(position);
+        weather.weatherinfo(position,(error,weatherResult)=>{
+        if(error){
+        console.log(error);
+        }else{
+        console.log(JSON.stringify(weatherResult,undefined,2));
+    }
+});
+}
+    function locationNotReceived(positionError){
+        console.log(positionError);
+    }
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(onPositionReceived,locationNotReceived);
+    }
+    var watch=navigator.geolocation.watchPosition(onPositionReceived,locationNotReceived);
+    navigator.geolocation.clearWatch(watch);
+    
+});
+    
+// geolocation.getCurrentPosition(function (err, position) {
+//   if (err){
+//       console.log(err);
+//   }else{
+//   console.log(position);
+//   }
+// });
+    
+
+        
+
 app.listen(process.env.PORT,process.env.IP,() => {
     console.log("server started");
 });
